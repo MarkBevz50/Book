@@ -1,6 +1,6 @@
 #include "books.h"
 
-Book::Book() : year(0) {}
+Book::Book() : author(""), title(""), year(2005) {}
 
 Book::Book(const std::string& author, const std::string& title, int year)
     : author(author), title(title), year(year) {}
@@ -70,7 +70,7 @@ Book* readBooksFromFile(const std::string& fileName, size_t& numBooks) {
 
     Book* books = new Book[numBooks];
     for (size_t i = 0; i < numBooks; ++i) {
-        fin.get();  // Ігноруємо символ нового рядка
+        fin.get();  
         fin >> books[i];
     }
 
@@ -107,15 +107,7 @@ void writeBooksToFile(Book* books, size_t numBooks, size_t total_books, const st
     fout.close();
 }
 
-bool isAuthor(const Book& book, const std::string& targetAuthor)
-{
-    return book.getAuthor() == targetAuthor;
-}
 
-bool isYear(const Book& book, int targetYear)
-{
-    return book.getYear() == targetYear;
-}
 Book* filterBooksByPredicateString(const Book* books, size_t numBooks, bool (*predicate)(const Book&, const std::string&), const std::string& param, size_t& newSize) {
     size_t count = 0;
     for (size_t i = 0; i < numBooks; ++i) {
@@ -136,6 +128,15 @@ Book* filterBooksByPredicateString(const Book* books, size_t numBooks, bool (*pr
     }
 
     return filteredBooks;
+}
+bool isAuthor(const Book& book, const std::string& targetAuthor)
+{
+    return book.getAuthor() == targetAuthor;
+}
+
+bool isYear(const Book& book, int targetYear)
+{
+    return book.getYear() == targetYear;
 }
 Book* filterBooksByPredicateInt(const Book* books, size_t numBooks, bool (*predicate)(const Book&, int), int param, size_t& newSize) {
     size_t count = 0;
@@ -158,6 +159,7 @@ Book* filterBooksByPredicateInt(const Book* books, size_t numBooks, bool (*predi
 
     return filteredBooks;
 }
+
 size_t countAllBooks(const Book* books, size_t numBooks) {
     size_t count = 0;
     for (size_t i = 0; i < numBooks; ++i) {
